@@ -1,0 +1,15 @@
+/Users/Ztawh/Documents/WebbutvecklingMIUN/RiderProjects/Moment3/bin/Debug/net5.0/Moment3.deps.json
+/Users/Ztawh/Documents/WebbutvecklingMIUN/RiderProjects/Moment3/bin/Debug/net5.0/Moment3.runtimeconfig.json
+/Users/Ztawh/Documents/WebbutvecklingMIUN/RiderProjects/Moment3/bin/Debug/net5.0/Moment3.runtimeconfig.dev.json
+/Users/Ztawh/Documents/WebbutvecklingMIUN/RiderProjects/Moment3/bin/Debug/net5.0/Moment3.dll
+/Users/Ztawh/Documents/WebbutvecklingMIUN/RiderProjects/Moment3/bin/Debug/net5.0/ref/Moment3.dll
+/Users/Ztawh/Documents/WebbutvecklingMIUN/RiderProjects/Moment3/bin/Debug/net5.0/Moment3.pdb
+/Users/Ztawh/Documents/WebbutvecklingMIUN/RiderProjects/Moment3/obj/Debug/net5.0/Moment3.csproj.AssemblyReference.cache
+/Users/Ztawh/Documents/WebbutvecklingMIUN/RiderProjects/Moment3/obj/Debug/net5.0/Moment3.GeneratedMSBuildEditorConfig.editorconfig
+/Users/Ztawh/Documents/WebbutvecklingMIUN/RiderProjects/Moment3/obj/Debug/net5.0/Moment3.AssemblyInfoInputs.cache
+/Users/Ztawh/Documents/WebbutvecklingMIUN/RiderProjects/Moment3/obj/Debug/net5.0/Moment3.AssemblyInfo.cs
+/Users/Ztawh/Documents/WebbutvecklingMIUN/RiderProjects/Moment3/obj/Debug/net5.0/Moment3.csproj.CoreCompileInputs.cache
+/Users/Ztawh/Documents/WebbutvecklingMIUN/RiderProjects/Moment3/obj/Debug/net5.0/Moment3.dll
+/Users/Ztawh/Documents/WebbutvecklingMIUN/RiderProjects/Moment3/obj/Debug/net5.0/ref/Moment3.dll
+/Users/Ztawh/Documents/WebbutvecklingMIUN/RiderProjects/Moment3/obj/Debug/net5.0/Moment3.pdb
+/Users/Ztawh/Documents/WebbutvecklingMIUN/RiderProjects/Moment3/obj/Debug/net5.0/Moment3.genruntimeconfig.cache
