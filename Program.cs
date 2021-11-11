@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 
-// Skrivet av Amanda Hwatz björkholm 2021
+/* Skrivet av Amanda Hwatz Björkholm 2021
+ Moment 3 i kursen Programmering i C# .NET*/
 
 namespace Moment3
 {
+    // Klass för inlägg
     public class Entry
     {
         private string _name;
@@ -28,24 +30,19 @@ namespace Moment3
         }
     }
 
+    // Klass för gästbok
     public class Guestbook
     {
-        public void AddEntry(Entry entry)
-        {
-            // Skriv till fil
-            StreamWriter sw = new StreamWriter("users.txt", true);
+        private List<Entry> _entryList;
 
-            sw.WriteLine($"{entry.GetName()} - {entry.GetMessage()}");
-            sw.Close();
-        }
-
-        public void WriteEntries()
+        public Guestbook()
         {
+            // Hämta alla rader från textfilen och skapa objekt
             StreamReader sr = new StreamReader("users.txt");
             string line = "";
+            this._entryList = new List<Entry>();
 
-            List<Entry> entryList = new List<Entry>();
-
+            // Loopa igenom alla rader
             while ((line = sr.ReadLine()) != null)
             {
                 if (line == "")
@@ -53,51 +50,46 @@ namespace Moment3
                     continue;
                 }
                 
-                string[] lineArr = line.Split(" - ");
-
+                string[] lineArr = line.Split(" - "); // Separera rader på " - " för att få ut namn och meddelande separat
                 Entry readEntry = new Entry(lineArr[0], lineArr[1]);
                 
-                entryList.Add(readEntry);
+                // Spara objekt till listan
+                this._entryList.Add(readEntry);
             }
-            
-            sr.Close();
+            sr.Close(); // Stäng StreamReader
+        }
+        
+        public void AddEntry(Entry entry)
+        {
+            // Lägg till i filen
+            StreamWriter sw = new StreamWriter("users.txt", true);
 
+            sw.WriteLine($"{entry.GetName()} - {entry.GetMessage()}");
+            sw.Close();
+            
+            // Lägg till i listan
+            this._entryList.Add(entry);
+        }
+
+        public void WriteEntries()
+        {
+            // Skriv ut allt i listan
             int i = 0;
-            foreach (var entry in entryList)
+            foreach (var entry in this._entryList)
             {
-                Console.WriteLine($"[{i}]Författare: {entry.GetName()}, Meddelande: {entry.GetMessage()}");
+                Console.WriteLine($"[{i}] {entry.GetName()} - {entry.GetMessage()}");
                 i += 1;
             }
         }
 
         public bool DeleteEntry(int id)
         {
-            StreamReader sr = new StreamReader("users.txt");
-            // Hämta inlägg
-            string line = "";
-            List<Entry> entryList = new List<Entry>();
-
-            while ((line = sr.ReadLine()) != null)
-            {
-                if (line == "")
-                {
-                    continue;
-                }
-                
-                string[] lineArr = line.Split(" - ");
-
-                Entry readEntry = new Entry(lineArr[0], lineArr[1]);
-                
-                entryList.Add(readEntry);
-            }
-            sr.Close();
-
             // Ta bort inlägg med ID
             try
             {
-                entryList.RemoveAt(id);
+                this._entryList.RemoveAt(id);
             }
-            catch (ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException) // Om inmatat id är för stort eller för litet
             {
                 return false;
             }
@@ -105,12 +97,12 @@ namespace Moment3
             //Spara ny lista
             StreamWriter sw = new StreamWriter("users.txt");
             
-            foreach (var entry in entryList)
+            foreach (var entry in this._entryList)
             {
                 sw.WriteLine($"{entry.GetName()} - {entry.GetMessage()}");
             }
             
-            sw.Close();
+            sw.Close(); // Stäng StreamWriter
             return true;
         }
     }
@@ -119,10 +111,10 @@ namespace Moment3
     {
         private static void Main(string[] args)
         {
-            // Deklarera lista
-            //List<Entry> entries = new List<Entry>();
+            // Skapa instans av klass
             Guestbook guestbook = new Guestbook();
 
+            // Kör meny
             while (true)
             {
                 Console.WriteLine("A M A N D A S  G Ä S T B O K");
@@ -134,8 +126,10 @@ namespace Moment3
                  Console.WriteLine("X. Avsluta");
                  Console.WriteLine();
 
+                 // Skriv ut inlägg
                  guestbook.WriteEntries();
                 
+                 // Läs in inmatat tecken
                  string key = Console.ReadLine();
                 
                  // Nytt inlägg
@@ -147,6 +141,7 @@ namespace Moment3
                      // Kontrollera om namn är tomt
                      while (name == "")
                      {
+                         // Hämta namn tills det inte är tomt
                          Console.WriteLine("Du måste ange ett namn!");
                          name = Console.ReadLine();
                      }
@@ -156,53 +151,52 @@ namespace Moment3
                      // Kontrollera om meddelandet är tomt
                      while (message == "")
                      {
+                         // Hämta meddelande tills det inte är tomt
                          Console.WriteLine("Du måste skriva ett inlägg!");
                          message = Console.ReadLine();
                      }
                 
+                     // Skapa inläggs-objekt av de inmatade värdena
                      Entry newEntry = new Entry(name, message);
-                
-                     // Lägg till gäst i lista
-                     //entries.Add(newEntry);
-                     
+
                      // Spara inlägg i gästbok
                      guestbook.AddEntry(newEntry);
                      guestbook.WriteEntries();
                  } else if (key == "2")
                  {
                      // Ta bort
+                     // Hämta ett ID från användaren
                      Console.WriteLine("Ange ett ID för det inlägg som ska tas bort");
                      string id = Console.ReadLine();
 
-                     try
+                     try // Testa konvertera string till integer
                      {
-                         int idInt = Convert.ToInt32(id);
-                         Console.WriteLine(idInt);
+                         int idInt = Convert.ToInt32(id); // Konvertera string till int
 
+                         // Om det gick att ta bort inlägget
                          if (guestbook.DeleteEntry(idInt))
                          {
                              Console.WriteLine("Inlägget togs bort.");
                          }
-                         else
+                         else // Om det inte gick att ta bort inlägget
                          {
                              Console.WriteLine("Felaktigt ID.");
                          }
                      }
-                     catch (FormatException)
+                     catch (FormatException) // Om en bokstav har matats in
                      {
                          Console.WriteLine("Du måste ange en siffra");
                      }
-                     catch (OverflowException)
+                     catch (OverflowException) // Om siffran tar upp för mycket minne
                      {
                          Console.WriteLine("Det var lite överdrivet va.. Testa igen");
                      }
-
-                     guestbook.WriteEntries();
+                     
                  } else if (key == "x")
                  {
-                     break;
+                     break; // Avsluta programmet
                  }
-                 else
+                 else // Om användaren matar in något annat än menyalternativen
                  {
                      Console.WriteLine("Du kan endast välja mellan alternativen i listan. 1 för nytt inlägg, 2 för att ta bort ett inlägg, 'x' för att avsluta programmet.");
                  }
