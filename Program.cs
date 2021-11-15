@@ -117,6 +117,8 @@ namespace Moment3
             // Kör meny
             while (true)
             {
+                // Rensa consolen
+                Console.Clear();
                 Console.WriteLine("A M A N D A S  G Ä S T B O K");
                 
                  // Meny
@@ -128,7 +130,7 @@ namespace Moment3
 
                  // Skriv ut inlägg
                  guestbook.WriteEntries();
-                
+
                  // Läs in inmatat tecken
                  string key = Console.ReadLine();
                 
