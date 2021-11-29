@@ -37,48 +37,64 @@ namespace Moment3
 
         public Guestbook()
         {
-            // Hämta alla rader från textfilen och skapa objekt
-            StreamReader sr = new StreamReader("users.txt");
-            string line = "";
-            this._entryList = new List<Entry>();
-
-            // Loopa igenom alla rader
-            while ((line = sr.ReadLine()) != null)
+            try
             {
-                if (line == "")
+                // Hämta alla rader från textfilen och skapa objekt
+                using (StreamReader sr = new StreamReader("guestbook.txt"))
                 {
-                    continue;
+                    string line = "";
+                    this._entryList = new List<Entry>();
+
+                    // Loopa igenom alla rader
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        if (line == "")
+                        {
+                            continue;
+                        }
+
+                        string[]
+                            lineArr = line
+                                .Split(" - "); // Separera rader på " - " för att få ut namn och meddelande separat
+                        Entry readEntry = new Entry(lineArr[0], lineArr[1]);
+
+                        // Spara objekt till listan
+                        this._entryList.Add(readEntry);
+                    }
+
+                    sr.Close(); // Stäng StreamReader
                 }
-                
-                string[] lineArr = line.Split(" - "); // Separera rader på " - " för att få ut namn och meddelande separat
-                Entry readEntry = new Entry(lineArr[0], lineArr[1]);
-                
-                // Spara objekt till listan
-                this._entryList.Add(readEntry);
             }
-            sr.Close(); // Stäng StreamReader
+            catch // Om filen inte hittades
+            {
+                this._entryList = new List<Entry>();
+            }
         }
         
         public void AddEntry(Entry entry)
         {
-            // Lägg till i filen
-            StreamWriter sw = new StreamWriter("users.txt", true);
-
-            sw.WriteLine($"{entry.GetName()} - {entry.GetMessage()}");
-            sw.Close();
+            // Lägg till i filen. Om filen inte finns skapas denna
+            using (StreamWriter sw = new StreamWriter("guestbook.txt", true))
+            {
+                sw.WriteLine($"{entry.GetName()} - {entry.GetMessage()}");
+                sw.Close();
             
-            // Lägg till i listan
-            this._entryList.Add(entry);
+                // Lägg till i listan
+                this._entryList.Add(entry);
+            }
         }
 
         public void WriteEntries()
         {
             // Skriv ut allt i listan
             int i = 0;
-            foreach (var entry in this._entryList)
+            if (this._entryList != null)
             {
-                Console.WriteLine($"[{i}] {entry.GetName()} - {entry.GetMessage()}");
-                i += 1;
+                foreach (var entry in this._entryList)
+                {
+                    Console.WriteLine($"[{i}] {entry.GetName()} - {entry.GetMessage()}");
+                    i += 1;
+                } 
             }
         }
 
@@ -95,7 +111,7 @@ namespace Moment3
             }
             
             //Spara ny lista
-            StreamWriter sw = new StreamWriter("users.txt");
+            StreamWriter sw = new StreamWriter("guestbook.txt");
             
             foreach (var entry in this._entryList)
             {
